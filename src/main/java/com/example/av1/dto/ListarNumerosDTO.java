@@ -1,4 +1,4 @@
-package dto;
+package com.example.av1.dto;
 
 import java.util.List;
 import java.io.Serializable;

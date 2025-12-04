@@ -1,4 +1,5 @@
-package Controller;
+package com.example.av1.Controller;
+import com.example.av1.dto.ListarNumerosDTO;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +19,13 @@ public class SomaController {
     private RabbitTemplate rabbitTemplate;
 
     @PostMapping("/enviar")
-    public ResponseEntity<String> enviarLista(@RequestBody ListaNumerosDTO listaDTO){
-
+    public ResponseEntity<String> enviarLista(@RequestBody ListarNumerosDTO listaDTO){
 
         rabbitTemplate.convertAndSend(EXCHANGE_NAME, QUEUE_NAME, listaDTO);
 
-        String logMessage = "Lista enviada por PROJETO A para a fila '" + QUEUE_NAME + "': " + listaDTO.getNumeros();
+        String logMessage = " a lista foi enviada por projetinho A para a fila '" + QUEUE_NAME + "': " + listaDTO.getNumeros();
         System.out.println(logMessage);
 
-        return ResponseEntity.ok("Mensagem enviada com sucesso: " + listaDTO.getNumeros());
+        return ResponseEntity.ok("msg enviada com sucesso: " + listaDTO.getNumeros());
     }
 }
