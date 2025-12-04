@@ -3,7 +3,7 @@ package com.example.av1.dto;
 import java.util.List;
 import java.io.Serializable;
 
-public class ListarNumerosDTO implements Serializable {
+public class ListaNumerosDTO {
 
     private List<Integer> numeros;
 

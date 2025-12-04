@@ -1,11 +1,12 @@
-package com.example.av1.Config;
+package com.example.av1.config;
+
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,10 +17,11 @@ import jakarta.annotation.PostConstruct;
 public class MQConfig {
 
     private static final String QUEUE_NAME = "provac2NomeLaura";
-    private static final String EXCHANGE_NAME = "senacrmq";
+    private static final String EXCHANGE_NAME = "provaciclo2pw1";
 
     @Autowired
     private AmqpAdmin amqpAdmin;
+
     private Queue queue;
 
     private DirectExchange createDirectExchange(){
@@ -28,7 +30,8 @@ public class MQConfig {
 
     @PostConstruct
     private void Create (){
-        this.queue = new Queue(QUEUE_NAME, true, false, false);
+        this.queue = new Queue(QUEUE_NAME, true, false, false); // Cria a Queue
+
         DirectExchange directExchange = createDirectExchange();
 
         Binding binding = new Binding(queue.getName(), Binding.DestinationType.QUEUE,
@@ -37,7 +40,6 @@ public class MQConfig {
         amqpAdmin.declareQueue(queue);
         amqpAdmin.declareExchange(directExchange);
         amqpAdmin.declareBinding(binding);
-        System.out.println("projetinho: Fila '" + QUEUE_NAME + "' declarada com sucesso no RabbitMQ.");
     }
 
     @Bean
@@ -50,6 +52,6 @@ public class MQConfig {
 
     @Bean
     public MessageConverter jsonMessageConverter() {
-        return new JacksonJsonMessageConverter();
+        return new Jackson2JsonMessageConverter();
     }
 }
